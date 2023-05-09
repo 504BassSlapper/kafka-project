@@ -24,8 +24,9 @@ public class StreamProducer {
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "java.client.id.1");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
+        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
         Executors.newScheduledThreadPool(2).scheduleAtFixedRate(() -> {
+            System.out.println("-------------------------------------");
             ++counter;
             String message = String.valueOf(Math.random() * 1000);
             producer.send(new ProducerRecord<>(ConfigConst.TOPICNAME.getValue(), String.valueOf(++counter), message),
@@ -34,6 +35,6 @@ public class StreamProducer {
                         System.out.println("Partition : " + metadata.partition() + " offset : " + metadata.offset());
 
                     });
-        }, 1000, 1000, TimeUnit.MILLISECONDS);
+        }, 3000, 50, TimeUnit.MILLISECONDS);
     }
 }

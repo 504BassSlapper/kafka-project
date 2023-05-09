@@ -36,14 +36,15 @@ public class StreamConsumer {
 
         Executors.newScheduledThreadPool(2)
                 .scheduleAtFixedRate(() -> {
-                    ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(10));
+                    System.out.println("-----------------------consumer");
+                    ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(1000));
                     consumerRecords.forEach(cr -> {
                         System.out.println("consumer record  key : " + cr.key()
                                 + " of value : " + cr.value() + " in topic : " + cr.topic()
                         + " offset : " +cr.offset());
                     });
 
-                }, 1000, 1000, TimeUnit.MILLISECONDS);
+                }, 1000, 2000, TimeUnit.MILLISECONDS);
 
 
     }
